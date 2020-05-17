@@ -3,6 +3,7 @@ package com.example.weatherapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -11,6 +12,7 @@ import kotlinx.coroutines.withContext
 class MainActivity : AppCompatActivity() {
 
     val weatherItem : ArrayList<Weather> = arrayListOf<Weather>()
+    val weatherI : ArrayList<WeatherItem> = arrayListOf<WeatherItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,11 +26,21 @@ class MainActivity : AppCompatActivity() {
            val responseBody = response.body()
               Log.d("Response","$responseBody")
                 response.body()?.let {res->
-                    res.main.let{
+                    runOnUiThread {
+                        state.text = res.name
+                        temp.text = res.main!!.temp.toString()
+                        main.text = res.weather!!.get(0)!!.main
+                        description.text = res.weather!!.get(0)!!.description
+                        //min.text = "Min : ${res.main!!.temp_min}"
+                        //max.text = "Max : ${res.main!!.temp_max}"
+                        humidity.text = res.main!!.humidity.toString()
+                        Pressure.text = res.main!!.pressure.toString()
 
-                    }
-                    res.weather.let{
 
+
+
+
+                        Log.d("Response","${res.main!!.temp}")
                     }
 
                 }
